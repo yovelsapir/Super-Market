@@ -1,0 +1,61 @@
+form{
+    h3{
+        padding: 40px;
+        position: relative;
+        bottom: 50px;
+    }
+
+    .jumbotron{
+        background-color: #ffffff6b;
+    }
+
+    .btn-container{
+        li{
+            list-style: none;
+            a{
+                text-decoration: underline;
+            }
+        }
+
+        li:hover{
+            color: #2BBBAD;
+        }
+    }
+}
+
+#start-shopping-container{
+    span{
+        transition: 0.3s all;
+        text-decoration: underline;
+    }
+    span:hover{
+        cursor: pointer;
+        font-weight: 600;
+        text-decoration: none;
+    }
+}
+
+.md-form{
+    .counter-success {
+        border-bottom: 1px solid #ced4da !important;
+        box-shadow: 0 1px 0 0 #ced4da !important;
+    }
+
+    .counter-danger{
+        border-bottom: 1px solid #ced4da !important;
+        box-shadow: 0 1px 0 0 #ced4da !important;
+    }
+
+    .text-danger{
+        color: transparent !important;
+    }
+
+    .text-success{
+        color: transparent !important;
+    }
+
+     p{
+        position: relative;
+        left: 40px;
+    }
+}

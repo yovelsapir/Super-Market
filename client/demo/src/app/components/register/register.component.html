@@ -1,0 +1,119 @@
+<!-- Register form -->
+<div class="container">
+  <div class="row m-0 d-flex justify-content-center mx-auto" style="max-width: 600px;">
+    <form *ngIf="!whichFormToShow" [formGroup]="registerForm_Step1" class="rgba-indigo-slight p-4 mt-5">
+      <h5 class="h5 text-center mb-4 indigo text-white z-depth-3">Sign up</h5>
+      <div class="md-form">
+        <i class="fa fa-envelope prefix grey-text"></i>
+        <input type="text" formControlName="email" id="defaultForm-email" class="form-control" mdbInputDirective>
+        <label for="defaultForm-email">Your email</label>
+        <p *ngIf='registerForm_Step1.controls.email.errors && registerForm_Step1.value.email != null' class="text-danger_ex">Invalid email</p>
+        <p *ngIf='!this.registerForm_Step1.controls.email.errors' class="text-success_ex">Success</p>
+      </div>
+
+      <div class="md-form mt-5">
+        <i class="fa fa-envelope prefix grey-text"></i>
+        <input type="text" formControlName="id" id="defaultForm-id" class="form-control" mdbInputDirective>
+        <label for="defaultForm-id">id</label>
+        <p *ngIf='registerForm_Step1.controls.id.errors && registerForm_Step1.value.id != null' class="text-danger_ex">Invalid id</p>
+        <p *ngIf='!this.registerForm_Step1.controls.id.errors' class="text-success_ex">Success</p>
+      </div>
+
+      <div class="md-form mt-5">
+        <i class="fa fa-lock prefix grey-text"></i>
+        <input type="password" formControlName="password" id="defaultForm-pass" class="form-control" mdbInputDirective>
+        <label for="defaultForm-pass">Your password</label>
+        <p *ngIf='registerForm_Step1.controls.password.errors && registerForm_Step1.value.password != null' class="text-danger_ex">Password length: between 6-32</p>
+        <p *ngIf='!this.registerForm_Step1.controls.password.errors' class="text-success_ex">Success</p>
+      </div>
+
+      <div class="md-form mt-5">
+        <i class="fa fa-lock prefix grey-text"></i>
+        <input type="password" formControlName="cpassword" id="defaultForm-cpass" class="form-control" mdbInputDirective>
+        <label for="defaultForm-cpass">Confirm password</label>
+        <p *ngIf='registerForm_Step1.controls.cpassword.errors && registerForm_Step1.value.cpassword != null' class="text-danger_ex">Password length: between 6-32</p>
+        <p *ngIf='!validatePasswords() && registerForm_Step1.value.cpassword != null' class="text-danger_ex">Incorrect password!</p>
+        <p *ngIf='!this.registerForm_Step1.controls.cpassword.errors' class="text-success_ex">Success</p>
+      </div>
+
+
+      <div class="btn-container text-center mt-5 d-flex justify-content-end align-items-center">
+        <li>
+          <a class="nav-link waves-light" [routerLink]="['/home']" mdbWavesEffect>Sign in</a>
+        </li>
+
+        <input type="button" [disabled]='!registerForm_Step1.valid || !validatePasswords()' (click)="next();" class="btn btn-default waves-light"
+          mdbWavesEffect value="Next">
+      </div>
+    </form>
+
+    <form *ngIf="whichFormToShow" [formGroup]="registerForm_Step2" class="rgba-indigo-slight p-4 mt-5">
+      <h5 class="h5 text-center mb-4 indigo text-white z-depth-3">Sign up</h5>
+      <div class="md-form">
+        <i class="fa fa-envelope prefix grey-text"></i>
+        <input type="text" formControlName="address" id="defaultForm-address" class="form-control" mdbInputDirective>
+        <label for="defaultForm-address">Your address</label>
+        <p *ngIf='registerForm_Step2.controls.address.errors && registerForm_Step2.value.address != null' class="text-danger_ex">Address is required</p>
+        <p *ngIf='!this.registerForm_Step2.controls.address.errors' class="text-success_ex">Success</p>
+      </div>
+
+      <div class="md-form">
+        <i class="fa fa-envelope prefix grey-text"></i>
+        <input type="text" formControlName="street" id="defaultForm-street" class="form-control" mdbInputDirective>
+        <label for="defaultForm-street">Your street</label>
+        <p *ngIf='registerForm_Step2.controls.street.errors && registerForm_Step2.value.street != null' class="text-danger_ex">Street is required</p>
+        <p *ngIf='!this.registerForm_Step2.controls.street.errors' class="text-success_ex">Success</p>
+      </div>
+
+      <div class="md-form mt-5">
+        <i class="fa fa-lock prefix grey-text"></i>
+        <input type="text" formControlName="name" id="defaultForm-name" class="form-control" mdbInputDirective>
+        <label for="defaultForm-name">Your First Name</label>
+        <p *ngIf='registerForm_Step2.controls.name.errors && registerForm_Step2.value.name != null' class="text-danger_ex">Name is required</p>
+        <p *ngIf='!this.registerForm_Step2.controls.name.errors' class="text-success_ex">Success</p>
+      </div>
+
+      <div class="md-form mt-5">
+        <i class="fa fa-lock prefix grey-text"></i>
+        <input type="text" formControlName="lastname" id="defaultForm-lastname" class="form-control" mdbInputDirective>
+        <label for="defaultForm-lastname">Your Last Name</label>
+        <p *ngIf='registerForm_Step2.controls.lastname.errors && registerForm_Step2.value.lastname != null' class="text-danger_ex">Last name is required</p>
+        <p *ngIf='!this.registerForm_Step2.controls.lastname.errors' class="text-success_ex">Success</p>
+      </div>
+
+      <div class="btn-container text-center mt-5 d-flex justify-content-end align-items-center">
+        <li>
+          <a class="nav-link waves-light" [routerLink]="['/home']" mdbWavesEffect>Sign in</a>
+        </li>
+
+        <input type="button" (click)="back()" class="btn btn-default waves-light" mdbWavesEffect value="Back">
+        <input type="button" [disabled]='!registerForm_Step2.valid' (click)="register()" class="btn btn-default waves-light" mdbWavesEffect
+          value="Register">
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Register form -->
+
+<div *ngIf='this.registerErrorModal' class="container-fluid-fixed d-flex align-items-center justify-content-center black w-100"
+  style="position: fixed; top: 0; min-height: 100vh; z-index: 999;">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 mx-sm-auto col-md-4 mx-md-auto col-lg-4 mx-lg-auto">
+        <div class="jumbotron d-flex justify-content-center align-items-center flex-column">
+          <div class="register-error">
+            <h2 class="w-100">ERROR</h2>
+            <hr>
+            <p *ngIf='registerError.code'>{{registerError['code']}}</p>
+            <p *ngIf='registerError.statusText'>{{registerError['statusText']}}</p>
+          </div>
+
+          <div class="register-error-accept">
+            <input type="button" (click)="this.registerError = ''; this.registerErrorModal = false;" class="btn btn-default waves-light"
+              mdbWavesEffect value="אישור">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

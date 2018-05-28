@@ -1,0 +1,39 @@
+<!-- Login form -->
+<form [formGroup]="loginForm" class="rgba-indigo-slight p-4">
+  <h3 *ngIf='!this.isLogged' class="h5 text-center mb-4 indigo text-white z-depth-3">LOGIN</h3>
+
+  <div *ngIf='this.isLogged' id='start-shopping-container' class="container jumbotron p-2 m-0 w-75 mx-auto">
+    <strong>
+      <span *ngIf='!this.shoppingCartIsExist' (click)='moveToShop()'>Start Shopping</span>
+      <span *ngIf='this.shoppingCartIsExist' (click)='moveToShop()'>Resume Shopping</span></strong>
+    <br/> "Available only for logged in
+    <br/>users - secure it"
+  </div>
+
+
+  <div *ngIf='!this.isLogged' class="md-form">
+    <i class="fa fa-envelope prefix grey-text"></i>
+    <input type="text" formControlName="email" id="defaultForm-email" class="form-control" mdbInputDirective>
+    <label for="defaultForm-email">Your email</label>
+    <p *ngIf='loginForm.controls.email.errors && loginForm.value.email != null' class="text-danger_ex">Invalid email</p>
+    <p *ngIf='!this.loginForm.controls.email.errors' class="text-success_ex">Success</p>
+  </div>
+
+  <div *ngIf='!this.isLogged' class="md-form mt-5">
+    <i class="fa fa-lock prefix grey-text"></i>
+    <input type="password" formControlName="password" id="defaultForm-pass" class="form-control" mdbInputDirective>
+    <label for="defaultForm-pass">Your password</label>
+    <p *ngIf='this.loginForm.controls.password.errors && this.loginForm.value.password != null' class="text-danger_ex">Password length: between 6-32</p>
+    <p *ngIf='!this.loginForm.controls.password.errors' class="text-success_ex">Success</p>
+  </div>
+
+  <div *ngIf='!this.isLogged' class="btn-container text-center mt-5 d-flex justify-content-end align-items-center">
+    <li>
+      <a class="nav-link waves-light" [routerLink]="['/register']" mdbWavesEffect>Sign up</a>
+    </li>
+
+    <input type="button" (click)="login()" class="btn btn-default waves-light" mdbWavesEffect value="Login">
+  </div>
+
+</form>
+<!-- Login form -->

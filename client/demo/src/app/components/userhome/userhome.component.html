@@ -1,0 +1,80 @@
+<div *ngIf="loginAccepted" class="container-fluid">
+  <div class="row">
+
+    <div *ngIf='!this._sideNavbarService.inOrder' [ngClass]="{'col-3 indigo sidebar animated fadeInLeft': showNavbar(), 'col-1': !showNavbar()}"
+      [ngStyle]="{'border-top': showNavbar() ? '2px solid #fff': '0'}">
+      <app-side-nav></app-side-nav>
+    </div>
+
+    <div *ngIf='!this._sideNavbarService.inOrder' [ngClass]="{'col-9 animated zoomIn': showNavbar(), 'col-11': !showNavbar()}">
+      <div class="col-12 p-0 py-2 pl-2">
+        <nav class="nav lighten-4 py-2 w-100" style="border-bottom: 1px solid #3f51b5;">
+          <button *ngFor='let category of categoriesList; let i = index' type="button" class="btn bg-transparent indigo-text p-0 pl-1"
+            style="box-shadow: none;" (click)='loadProducts(category._id);'>{{category.name}}</button>
+        </nav>
+
+        <div class="col-4">
+          <div class="row">
+            <div class="md-form w-100">
+              <i class="fa fa-search prefix" aria-hidden="true"></i>
+              <input [(ngModel)]='searchInputValue' (keyup)="searchProductsByName()" mdbInputDirective type="text" id="search" class="form-control">
+              <label for="search">Search product</label>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="container-fluid-fixed mt-4">
+          <div id="product-container" class="row">
+            <p *ngIf='showSelectCategoryMessage' class="p-5">Select a category or use the search input to show products!</p>
+            <div *ngFor='let product of productList' (click)='productClicked(product);' class="d-flex justify-content-around p-5 py-0 w-25 animated fadeInDown">
+              <div class="card card-body">
+                <img class="img-fluid w-100 z-depth-1" src='{{product.img}}' alt="Card image cap">
+                <h3 class="card-title mb-0 mt-3">{{product['name']}}</h3>
+                <hr class="m-0 mb-2" />
+                <p class="m-0">Price: {{product['price']}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf='this._sideNavbarService.inOrder' class='mt-4 col-12 animated zoomIn p-0'>
+      <app-order></app-order>
+    </div>
+  </div>
+
+  <div *ngIf='this.showProductAmountModal' class="container-fluid-fixed d-flex align-items-center justify-content-center rgba-black-strong w-100 p-0 m-0"
+    style="position: fixed; top: 0; left: 0; min-height: 100vh; z-index: 999;">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xs-12 col-sm-10 mx-sm-auto col-md-4 mx-md-auto col-lg-4 mx-lg-auto">
+          <div class="jumbotron d-flex justify-content-center align-items-center flex-column">
+            <div class="order-error">
+              <h2 class="w-100">Add amount</h2>
+              <hr>
+
+              <select [(ngModel)]='selectedIndex' class="mdb-select w-100" style="padding: 5px 0 5px 0;">
+                <option *ngFor='let number of [1,2,3,4,5,6,7,8,9,10]' value="{{number}}">{{number}}</option>
+              </select>
+
+              <button type="button" class="btn btn-secondary waves-light" aria-label="Close" (click)="showProductAmountModal = false;"
+                mdbWavesEffect>Close</button>
+              <button type="button" class="btn btn-primary relative waves-light" (click)='addToCart();showProductAmountModal = false;'
+                mdbWavesEffect>Add to cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 
+    <h1 class="display-4">Hello, {{name}}!</h1>
+      <p class="lead">You have successfully logged in to our system.</p>
+      <hr class="my-4">
+      <p>Go now to shopping to show our products!</p>
+      <p class="lead" style="color:white;">
+        <a class="btn btn-primary btn-lg" role="button" (click)="logout()">Log Out</a>
+    </p> 
+-->

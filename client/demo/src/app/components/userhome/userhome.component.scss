@@ -1,0 +1,31 @@
+.sidebar{
+    min-height: 100vh;
+}
+
+nav{
+    button:hover{
+        font-size: 1.1rem;
+    }
+}
+
+#product-container{
+    .card:hover{
+        cursor: pointer;
+        background-color: #f3f3f3;
+        transition: 0.3s all;
+    }
+}
+
+// .md-form {
+//     input:focus + label {
+//         position: relative;
+//         top: -70px;
+//         font-size: 1rem !important;
+//     } 
+
+//     input:not([value=""]) + label {
+//         position: relative;
+//         top: -70px;
+//         font-size: 0.8rem;
+//     }
+// }

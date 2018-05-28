@@ -1,0 +1,30 @@
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark indigo">
+  <logo>
+    <a class="navbar-brand" href="#">Super market</a>
+  </logo>
+  <links>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link waves-light" [routerLink]="['/home']" mdbWavesEffect>Home
+          <span class="sr-only">(current)</span>
+        </a>
+      </li>
+      <li *ngIf='!this._headerService.getLogged()' class="nav-item">
+        <a class="nav-link waves-light" [routerLink]="['/register']" mdbWavesEffect>Register</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link waves-light" [routerLink]="['/user']" mdbWavesEffect>Store</a>
+      </li>
+    </ul>
+    <span class="navbar-text white-text">
+      Hello, {{this._headerService.getName()}}
+    </span>
+
+    <span *ngIf='this._headerService.getLogged()' class="text-white ml-1">|</span>
+    <ul *ngIf='this._headerService.getLogged()' class="navbar-nav float-right">
+      <li class="nav-item">
+        <a class="nav-link waves-light p-1" (click)='logout()' mdbWavesEffect>Logout</a>
+      </li>
+    </ul>
+  </links>
+</mdb-navbar>

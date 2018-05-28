@@ -1,0 +1,135 @@
+<div class="container-fluid-fixed p-0 m-0 my-3">
+
+
+    <div *ngIf='showSideNavbar()' class="row">
+        <!-- <p *ngIf='this._sideNavbarService.getCartItems().length == 0'>
+            <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+        </p> -->
+
+        <!-- ADMINISTRATOR CONTAINER -->
+        <div *ngIf='this.isAdminAccepted' class="col-12 p-0">
+            <div class="quitSideBar text-white text-right mr-1">
+                <i class="fa fa-remove" aria-hidden="true" (click)='sideNavbarToggle()'></i>
+            </div>
+
+            <hr>
+
+            <div id='admin-manager-container' class="container-fluid-fixed">
+                <div class="row m-0 p-0">
+                    <div class="d-flex justify-content-center w-100 white pb-3 pt-3">
+                        <div class="d-flex justify-content-start align-items-center w-75 ml-3">
+                            <h3 class="m-0 indigo-text">Add new product</h3>
+                        </div>
+
+                        <div class="d-flex justify-content-end w-25 mr-3">
+                            <i class="fa fa-plus indigo-text" aria-hidden="true" (click)='addProductForm()'></i>
+                        </div>
+                    </div>
+
+                    <section *ngIf='this._sideNavbarService.isUpdateProduct || this._sideNavbarService.isAddProduct' class="w-100">
+                        <!-- Admin form -->
+                        <form [formGroup]="this.adminForm" (ngSubmit)='onSubmit()' class="d-flex flex-column align-items-center">
+
+                            <header *ngIf='this._sideNavbarService.isUpdateProduct' class="mt-3 md-form w-75">
+                                <p class="text-white">Product id: {{this._sideNavbarService.productId}}</p>
+                            </header>
+
+                            <div class="md-form w-75">
+                                <input type="text" formControlName="name" id="adminForm-name" class="form-control text-white" mdbInputDirective>
+                                <label for="adminForm-name"  class="text-white">Product name</label>
+                            </div>
+
+                            <div class="md-form w-75 mt-4">
+                                <input type="text" formControlName="price" id="adminForm-price" class="form-control text-white" mdbInputDirective>
+                                <label for="adminForm-price" class="text-white">Product price</label>
+                            </div>
+
+
+                            <div class="md-form w-75 mt-4">
+                                <input type="text" formControlName="img" id="adminForm-img" class="form-control text-white" mdbInputDirective>
+                                <label for="adminForm-img" class="text-white">Product picture</label>
+                            </div>
+
+                            <div class="md-form w-75 mt-2">
+                                <mat-form-field class='form-control border-0 text-white'>
+                                    <mat-select [disabled]='this._sideNavbarService.isUpdateProduct' [(value)]='this._sideNavbarService.productCategory' style='color: white' placeholder="Choose a category">
+                                        <mat-option *ngFor="let category of this.categoriesList" [value]="category.value">
+                                            {{ category.label }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="text-center mt-3">
+                                <input [disabled]='!this.adminForm.valid' type="submit" class="btn btn-default waves-light" mdbWavesEffect value="Save">
+                            </div>
+                        </form>
+                        <!-- Admin form -->
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <!-- USER CONTAINER -->
+        <div *ngIf='!this.isAdminAccepted' class="col-12 p-0">
+            <div class="quitSideBar text-white text-right mr-1">
+                <i class="fa fa-remove" aria-hidden="true" (click)='sideNavbarToggle()'></i>
+            </div>
+
+            <header class="text-white mt-1" style="border-bottom: 2px solid #fff;">
+                <h3 class="p-2 pb-0">Cart Item:</h3>
+            </header>
+
+            <section class="p-2">
+                <div *ngIf='!this._sideNavbarService.shoppingCartIsExist' class="container-fluid">
+                    <h5 class="text-white">You dont have an open shopping cart.</h5>
+                </div>
+
+                <div *ngIf='this._sideNavbarService.getCartItems().length <= 0' class="container-fluid">
+                    <h5 class="text-white">You have a shopping cart, lets add some products!</h5>
+                </div>
+
+                <div *ngIf='this._sideNavbarService.shoppingCartIsExist && this._sideNavbarService.getCartItems().length > 0' class="container-fluid">
+                    <div class="row">
+                        <div class="d-flex justify-content-start flex-column w-100">
+                            <!--Panel-->
+                            <div *ngFor='let item of this._sideNavbarService.getCartItems()' class="card card-body w-100 mt-2">
+                                <i class="fa fa-remove text-right" value='{{item._id}}' (click)='this.removeCartItem(item.productId)' aria-hidden="true"></i>
+                                <h4 class="card-title p-0 m-0">{{item.name}}</h4>
+                                <hr class="m-0" />
+
+                                <div class="container-fluid-fixed mt-2">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <p class="card-text mt-2 mb-0">Amount: {{item.amount}}</p>
+                                            <p class="card-text">Price: {{item.totalPrice}}</p>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <img class="img-fluid w-100" src='{{item.img}}' alt="Card image cap">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/.Panel-->
+                        </div>
+
+                        <div class="d-flex justify-content-between w-100 align-items-center mt-2">
+                            <span class="text-white">Total price: {{this._sideNavbarService.getTotalPrice()}}$</span>
+                            <button type="button" (click)='deleteAllCartItems()' class="btn btn-danger waves-light btn-sm" mdbWavesEffect>Reset</button>
+                            <button type="button" (click)='openOrderView()' class="btn btn-secondary waves-light btn-sm" mdbWavesEffect>Order</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+
+    </div>
+
+    <div *ngIf='!showSideNavbar()' class="animated fadeInLeft">
+        <div class="d-flex justify-content-start w-100 align-items-center" id='arrow'>
+            <i class="fa fa-arrow-right indigo-text" aria-hidden="true" (click)='sideNavbarToggle()'></i>
+        </div>
+    </div>
+</div>

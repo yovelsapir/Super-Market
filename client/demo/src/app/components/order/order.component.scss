@@ -1,0 +1,53 @@
+#dateInput{
+    border: 0;
+}
+
+#dateInput:focus{
+    outline: 0;
+}
+
+#dateInput:focus {
+    outline: 0;
+    border-color: #4285F4;
+}
+
+#dateInputContainer{
+    margin-left: 47px;
+}
+
+.modal-ordered-success{
+    p{
+        b{
+            font-size: 1.2rem;
+        }
+
+        b:hover{
+            cursor: pointer;
+        }
+    }
+}
+
+.md-form{
+    .counter-success {
+        border-bottom: 1px solid #ced4da !important;
+        box-shadow: 0 1px 0 0 #ced4da !important;
+    }
+
+    .counter-danger{
+        border-bottom: 1px solid #ced4da !important;
+        box-shadow: 0 1px 0 0 #ced4da !important;
+    }
+
+    .text-danger{
+        color: transparent !important;
+    }
+
+    .text-success{
+        color: transparent !important;
+    }
+
+     p{
+        position: relative;
+        left: 40px;
+    }
+}

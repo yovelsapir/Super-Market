@@ -1,0 +1,120 @@
+<div class="container-fluid mx-auto">
+  <div class="row jumbotron indigo">
+    <div class="d-flex justify-content-center w-100 mx-auto">
+      <div class="col-6">
+        <div class="jumbotron">
+          <h1 class="h1-responsive">My Cart</h1>
+          <hr class="m-2" />
+
+          <div class="list-group">
+            <div *ngFor='let item of cartItems' class="list-group-item waves-light d-flex align-items-center justify-content-start w-100 p-0">
+              <h5 class="m-0 ml-1 waves-light" mdbWavesEffect>{{item.name}}</h5>
+              <span class="info-color d-flex align-items-center justify-content-center text-white pl-1 pr-1" style="min-width: 80px; min-height: 40px; margin-left: auto;">{{item.amount}}</span>
+              <span class="indigo d-flex align-items-center justify-content-center text-white pl-1 pr-1" style="min-width: 80px; min-height: 40px;">{{item.totalPrice}}$</span>
+              <img class="img-fluid float-right" style="width: 40px; height: 40px;" src='{{item.img}}' />
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-between w-100 align-items-center mt-5">
+            <span>Total Price: {{this.totalPrice()}}$</span>
+            <a class="btn btn-primary btn-lg waves-light m-0" (click)='this._sideNavbarService.inOrder = false;' role="button" mdbWavesEffect>Back to shop</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="jumbotron">
+          <h1 class="h1-responsive">Shopping Details</h1>
+          <hr class="m-1" />
+
+          <!-- Order form -->
+          <form [formGroup]="orderForm" (ngSubmit)='onSubmit()'>
+            <div class="md-form">
+              <i class="fa fa-envelope prefix grey-text"></i>
+              <input type="text" formControlName="address" [matAutocomplete]="auto" (keyup)='getCitiesList()' id="defaultForm-city" class="form-control"
+                mdbInputDirective>
+              <label for="defaultForm-city">City</label>
+              <p *ngIf='orderForm.controls.address.errors && orderForm.value.address != null' class="text-danger_ex">City address is required.</p>
+              <p *ngIf='!this.orderForm.controls.address.errors' class="text-success_ex">Success</p>
+
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let city of citiesList" [value]="city['n']">
+                  {{ city['n'] }}
+                </mat-option>
+              </mat-autocomplete>
+            </div>
+
+            <div class="md-form mt-3">
+              <i class="fa fa-lock prefix grey-text"></i>
+              <input type="text" formControlName="street" id="defaultForm-street" class="form-control" mdbInputDirective>
+              <label for="defaultForm-street">Street</label>
+              <p *ngIf='orderForm.controls.street.errors && orderForm.value.street != null' class="text-danger_ex">Street address is required.</p>
+              <p *ngIf='!this.orderForm.controls.street.errors' class="text-success_ex">Success</p>
+            </div>
+
+            <div class="md-form">
+              <i class="fa fa-lock prefix grey-text"></i>
+              <mat-form-field id='dateInputContainer'>
+                <input id='dateInput' formControlName="date" matInput [matDatepicker]="picker" placeholder="Choose a date">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+              <p *ngIf='orderForm.controls.date.errors && orderForm.value.date != null' class="text-danger_ex">Date is required.</p>
+              <p *ngIf='this.checkIfDateIsCurrent() && orderForm.value.date != null' class="text-danger_ex">Please chose a future date.</p>
+              <p *ngIf='!this.orderForm.controls.date.errors' class="text-success_ex">Success</p>
+            </div>
+
+
+            <h5 class="m-0 mt-5">Payments:</h5>
+            <div class="md-form m-2 mt-4">
+              <i class="fa fa-lock prefix grey-text"></i>
+              <input type="text" formControlName="card" id="defaultForm-card" class="form-control" mdbInputDirective>
+              <label for="defaultForm-card">Credit Card:</label>
+              <p *ngIf='orderForm.controls.card.errors && orderForm.value.card != null' class="text-danger_ex m-0 p-0">Credit Card is required.</p>
+              <p *ngIf='orderForm.controls.card.errors && orderForm.value.card != null' class="text-danger_ex m-0 p-0">Format: 0000-0000-0000-0000</p>
+              <p *ngIf='!this.orderForm.controls.card.errors' class="text-success_ex">Success</p>
+            </div>
+
+            <div class="text-right">
+              <input type="submit" [disabled]='!this.orderForm.valid || this.checkIfDateIsCurrent()' class="btn btn-primary waves-light" mdbWavesEffect value="Order">
+            </div>
+
+            <button type="button" class="btn" (click)='checkIfOrderPointCountUnder3();'>TEST</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf='this._ordersService.userOrdered' class="modal-ordered-success d-flex justify-content-center align-items-center w-100 rgba-black-strong m-0 p-0" style="z-index: 1; height: 100%; position: fixed; top: 0;">
+  <div class="w-50 white z-depth-1 d-flex align-items-center flex-column justify-content-center" style="height: 300px; border-radius: 25px;">
+    <h2>קנייתך בוצעה בהצלחה!</h2>
+    <hr class="my-5">
+    <p>להורדת הקבלה לחץ: <b (click)='downloadOrderInvoice()'>כאן</b></p>
+
+    <button class="btn btn-default" (click)='orderAccepted()'>אישור</button>
+  </div>
+</div>
+
+<div *ngIf='this.OrderPointCountUnder3' class="container-fluid-fixed d-flex align-items-center justify-content-center rgba-black-strong w-100"
+  style="position: fixed; top: 0; min-height: 100vh; z-index: 999;">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 mx-sm-auto col-md-4 mx-md-auto col-lg-4 mx-lg-auto">
+        <div class="jumbotron d-flex justify-content-center align-items-center flex-column">
+          <div class="order-error">
+            <h2 class="w-100">ERROR</h2>
+            <hr>
+            <p>יש כבר שלושה הזמנות אשר נקלטו במערכת בתאריך זה.<br>אנא בחר תאריך אחר.</p>
+          </div>
+
+          <div class="order-error-accept">
+            <input type="button" (click)="this.OrderPointCountUnder3 = false;" class="btn btn-default waves-light"
+              mdbWavesEffect value="אישור">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

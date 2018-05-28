@@ -1,0 +1,40 @@
+<!--Card-->
+<div class="card">
+
+  <!--Card image-->
+  <div class="view overlay waves-light" mdbWavesEffect>
+    <img src="assets/ali-yahya-435967-unsplash.jpg" class="img-fluid " alt="">
+    <div class="mask flex-center rgba-blue-light">
+      <p class="white-text">Super Market Info</p>
+    </div>
+  </div>
+
+  <!--Card content-->
+  <div class="card-body">
+    <!--Title-->
+    <h4 class="card-title">Info</h4>
+    <!--Text-->
+    <p class="card-text">Available products in our store:
+      <span>{{productsCount}}</span>
+    </p>
+    <p class="card-text">Numbers of orders submitted in our store:
+      <span>{{ordersCount}}</span>
+    </p>
+
+    <div *ngIf='this.isLogged' class="mt-2 jumbotron p-2 z-depth-1">
+      <header>
+        <h5>
+          <strong>Notification:</strong>
+        </h5>
+      </header>
+      <p *ngIf='this.shoppingCartExist' class="p-0 m-0">You have open cart from
+        <b>{{this.shoppingCartStartDate}}</b>
+      </p>
+      <p class="p-0 m-0">Your last purchase was on
+        <b>{{this.lastDate}}</b>
+      </p>
+      <p class="p-0 m-0">welcome, {{this.userName}}</p>
+    </div>
+  </div>
+</div>
+<!--/.Card-->
